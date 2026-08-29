@@ -68,6 +68,10 @@ export const ko = {
 
   'md.stats': '{words}단어 · 약 {minutes}분',
   'md.imageMissing': '이미지를 찾지 못했습니다',
+  'md.diagram': '다이어그램',
+  'md.diagramError': '다이어그램을 그리지 못했습니다',
+  'md.mathError': '수식을 해석하지 못했습니다',
+  'md.source': '원문 보기',
 
   'outline.title': '목차',
   'outline.empty': '제목이 없는 문서입니다',

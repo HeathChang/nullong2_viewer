@@ -1457,3 +1457,95 @@ kbd {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* ============================================================ diagrams & math */
+.mermaid-block {
+  margin: 0 0 1.3em;
+  overflow-x: auto;
+  text-align: center;
+}
+.mermaid-block svg {
+  max-width: 100%;
+  height: auto;
+}
+.math-block {
+  margin: 0 0 1.2em;
+  overflow-x: auto;
+  padding: 2px 0;
+}
+.math-inline .katex,
+.math-block .katex {
+  font-size: 1.02em;
+}
+/* 렌더 전에는 자리만 잡고 아무것도 보이지 않게 둔다. */
+.mermaid-block:not(.is-rendered),
+.math-block:not(.is-rendered) {
+  min-height: 1.2em;
+}
+
+.block-source {
+  margin-top: 10px;
+  text-align: left;
+  font-size: 0.82em;
+}
+.block-source summary {
+  cursor: pointer;
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  list-style: none;
+}
+.block-source summary::-webkit-details-marker {
+  display: none;
+}
+.block-source summary::before {
+  content: '▸ ';
+}
+.block-source[open] summary::before {
+  content: '▾ ';
+}
+.block-source summary:hover {
+  color: var(--text-2);
+}
+.block-source pre {
+  margin: 6px 0 0;
+  padding: 10px 12px;
+  background: var(--surface-2);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre;
+  color: var(--text-2);
+}
+.block-error {
+  display: block;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--danger);
+  border-radius: 0 6px 6px 0;
+  background: var(--surface);
+  padding: 12px 14px;
+  font-size: 13px;
+}
+.block-error strong {
+  display: block;
+  color: var(--danger);
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+.block-error__msg {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-3);
+  overflow-wrap: anywhere;
+}
+.math-error {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  color: var(--danger);
+  border-bottom: 1px dotted var(--danger);
+  cursor: help;
+}

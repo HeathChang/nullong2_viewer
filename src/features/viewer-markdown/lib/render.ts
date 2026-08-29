@@ -8,10 +8,19 @@ export interface Heading {
   depth: number
 }
 
+export interface MathBlock {
+  tex: string
+  display: boolean
+}
+
 export interface RenderedMarkdown {
   html: string
   headings: Heading[]
   words: number
+  /** ```mermaid 블록의 원문. 자리표시자의 data-mermaid 인덱스와 짝을 이룬다. */
+  mermaid: string[]
+  /** $…$ · $$…$$ 수식 원문. data-math 인덱스와 짝을 이룬다. */
+  math: MathBlock[]
 }
 
 function escapeHtml(text: string): string {
@@ -52,8 +61,45 @@ function countWords(text: string): number {
 export function renderMarkdown(source: string): RenderedMarkdown {
   const headings: Heading[] = []
   const used = new Map<string, number>()
+  // 원문을 HTML 속성에 넣으면 이스케이프가 꼬인다. 배열에 담고 인덱스만 심는다.
+  const mermaid: string[] = []
+  const math: MathBlock[] = []
 
   const marked = new Marked({ gfm: true, breaks: false })
+
+  marked.use({
+    extensions: [
+      {
+        name: 'blockMath',
+        level: 'block',
+        start: (src: string) => src.indexOf('$$'),
+        tokenizer(src: string) {
+          const match = /^\$\$([\s\S]+?)\$\$/.exec(src)
+          if (!match) return undefined
+          return { type: 'blockMath', raw: match[0], text: match[1].trim() }
+        },
+        renderer(token: Tokens.Generic) {
+          math.push({ tex: String(token.text), display: true })
+          return `<div class="math-block" data-math="${math.length - 1}"></div>\n`
+        },
+      },
+      {
+        name: 'inlineMath',
+        level: 'inline',
+        start: (src: string) => src.indexOf('$'),
+        tokenizer(src: string) {
+          // 앞뒤로 공백이 붙으면 수식이 아니라 금액일 확률이 높다.
+          const match = /^\$(?!\s)([^$\n]+?)(?<!\s)\$/.exec(src)
+          if (!match) return undefined
+          return { type: 'inlineMath', raw: match[0], text: match[1] }
+        },
+        renderer(token: Tokens.Generic) {
+          math.push({ tex: String(token.text), display: false })
+          return `<span class="math-inline" data-math="${math.length - 1}"></span>`
+        },
+      },
+    ],
+  })
 
   marked.use({
     renderer: {
@@ -70,6 +116,10 @@ export function renderMarkdown(source: string): RenderedMarkdown {
 
       code(token: Tokens.Code) {
         const lang = (token.lang ?? '').trim().split(/\s+/)[0]
+        if (lang === 'mermaid') {
+          mermaid.push(token.text)
+          return `<div class="mermaid-block" data-mermaid="${mermaid.length - 1}"></div>\n`
+        }
         let body: string
         let label = lang
         if (lang && hljs.getLanguage(lang)) {
@@ -116,5 +166,5 @@ export function renderMarkdown(source: string): RenderedMarkdown {
     FORBID_TAGS: ['style'],
   })
 
-  return { html, headings, words: countWords(source) }
+  return { html, headings, words: countWords(source), mermaid, math }
 }

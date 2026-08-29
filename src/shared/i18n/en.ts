@@ -70,6 +70,10 @@ export const en: Dict = {
 
   'md.stats': '{words} words · about {minutes} min',
   'md.imageMissing': 'Image not found',
+  'md.diagram': 'Diagram',
+  'md.diagramError': "Couldn't draw this diagram",
+  'md.mathError': "Couldn't parse this formula",
+  'md.source': 'Show source',
 
   'outline.title': 'Outline',
   'outline.empty': 'No headings in this document',

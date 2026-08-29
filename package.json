@@ -14,13 +14,16 @@
     "dompurify": "^3.2.4",
     "highlight.js": "^11.11.1",
     "idb-keyval": "^6.2.1",
+    "katex": "^0.16.47",
     "marked": "^15.0.7",
+    "mermaid": "^11.17.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "yaml": "^2.9.0",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@types/katex": "^0.16.8",
     "@types/node": "^26.4.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
