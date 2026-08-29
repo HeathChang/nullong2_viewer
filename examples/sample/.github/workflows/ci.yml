@@ -1,0 +1,6 @@
+# 숨김 폴더 안의 YAML — 기본 필터에서는 보이지 않는다
+name: ci
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest

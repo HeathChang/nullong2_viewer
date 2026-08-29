@@ -23,5 +23,6 @@ def greet(name: str) -> str:
 | 마크다운 | .md | 지원 |
 | JSON | .json | 지원 |
 | YAML | .yaml | 지원 |
+| 이미지 | .png | 목록에만 |
 
 > 인용문도 확인합니다. Mixed English and 한국어 in one line.
