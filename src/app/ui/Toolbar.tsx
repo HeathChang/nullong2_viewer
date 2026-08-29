@@ -83,6 +83,14 @@ export function Toolbar() {
         </button>
         <button
           className="iconbtn"
+          onClick={() => ui.setSearchAll(true)}
+          aria-pressed={ui.searchAllOpen}
+          title={t('toolbar.searchAll')}
+        >
+          <Icon name="folderSearch" />
+        </button>
+        <button
+          className="iconbtn"
           onClick={() => {
             // 구조적 데이터는 접힌 노드까지 뒤지는 자체 검색이 더 낫다.
             if (doc && isStructured(doc.kind)) {

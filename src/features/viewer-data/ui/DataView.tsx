@@ -10,7 +10,7 @@ import { RawBlock } from './RawBlock'
 
 const AUTO_EXPAND_DEPTH = 2
 
-export function DataView({ doc }: { doc: LoadedDoc }) {
+export function DataView({ doc, initialQuery }: { doc: LoadedDoc; initialQuery?: string }) {
   const t = useT()
   const wrapCode = usePrefs((s) => s.wrapCode)
   const parsed = useMemo(() => parseStructured(doc.text, doc.kind), [doc.text, doc.kind])
@@ -33,6 +33,14 @@ export function DataView({ doc }: { doc: LoadedDoc }) {
   useEffect(() => {
     setExpanded(parsed.ok ? branchPaths(parsed.value, AUTO_EXPAND_DEPTH) : new Set())
   }, [parsed])
+
+  // 폴더 전체 검색에서 넘어왔다면 그 검색어로 시작한다.
+  useEffect(() => {
+    if (initialQuery) {
+      setQuery(initialQuery)
+      setDebounced(initialQuery)
+    }
+  }, [initialQuery, doc.path])
 
   const matches = useMemo(
     () => (debounced && parsed.ok ? findMatches(parsed.value, debounced) : null),

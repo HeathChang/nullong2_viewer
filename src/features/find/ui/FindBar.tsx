@@ -14,10 +14,12 @@ interface Props {
   /** 검색할 영역. 문서가 바뀌면 resetKey 로 초기화한다. */
   container: HTMLElement | null
   resetKey: string | null
+  /** 폴더 전체 검색에서 넘어올 때 미리 채워 둘 검색어 */
+  seed?: string
   onClose: () => void
 }
 
-export function FindBar({ open, container, resetKey, onClose }: Props) {
+export function FindBar({ open, container, resetKey, seed, onClose }: Props) {
   const t = useT()
   const [query, setQuery] = useState('')
   const [index, setIndex] = useState(0)
@@ -34,6 +36,14 @@ export function FindBar({ open, container, resetKey, onClose }: Props) {
     setQuery('')
     setIndex(0)
   }, [resetKey])
+
+  // 폴더 전체 검색에서 넘어왔다면 그 검색어로 시작한다.
+  useEffect(() => {
+    if (seed) {
+      setQuery(seed)
+      setIndex(0)
+    }
+  }, [seed, resetKey])
 
   // 렌더가 끝난 뒤에 훑도록 한 박자 미룬다.
   useEffect(() => {

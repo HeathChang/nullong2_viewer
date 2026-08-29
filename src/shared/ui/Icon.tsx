@@ -20,6 +20,7 @@ const PATHS = {
   chevronDown: 'M5 7.5l5 5 5-5',
   list: 'M4 5.5h12 M4 10h8 M4 14.5h10',
   findText: 'M3.5 5h13 M3.5 9h7 M3.5 13h5 M12.6 13.1a2.9 2.9 0 1 0 0-5.8 2.9 2.9 0 0 0 0 5.8z M14.8 15.2 17 17.4',
+  folderSearch: 'M3 6.5A1.5 1.5 0 0 1 4.5 5h3.4c.4 0 .8.2 1.1.5l1 1h6.5A1.5 1.5 0 0 1 18 8v2.4 M9.4 14.2a2.8 2.8 0 1 0 0-5.6 2.8 2.8 0 0 0 0 5.6z M11.5 14.4 14 16.9 M3 10v6.5A1.5 1.5 0 0 0 4.5 18h3',
 } as const
 
 export type IconName = keyof typeof PATHS

@@ -1356,3 +1356,104 @@ kbd {
   background: var(--accent);
   color: var(--surface);
 }
+
+/* ============================================================ folder search */
+.palette--wide {
+  width: min(760px, 100%);
+}
+.palette__spinner {
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--line);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex: none;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.searchall__status {
+  margin: 0;
+  padding: 7px 16px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-3);
+  min-height: 30px;
+}
+.searchall__list {
+  max-height: 52vh;
+  overflow-y: auto;
+  padding: 4px 6px 8px;
+}
+.searchall__group {
+  margin-bottom: 6px;
+}
+.searchall__file {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  padding: 7px 10px 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  z-index: 1;
+}
+.searchall__name {
+  white-space: nowrap;
+}
+.searchall__path {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 400;
+  color: var(--text-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  direction: rtl;
+  flex: 1;
+  min-width: 0;
+}
+.searchall__n {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-3);
+  background: var(--surface-2);
+  padding: 1px 6px;
+  border-radius: 8px;
+  flex: none;
+}
+.searchall__hit {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--text-2);
+}
+.searchall__hit.is-active {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+.searchall__line {
+  text-align: right;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+.searchall__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

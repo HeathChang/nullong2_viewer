@@ -30,6 +30,11 @@ export function useGlobalShortcuts(): void {
         ui.setPalette(!ui.paletteOpen)
         return
       }
+      if (mod && event.shiftKey && event.key.toLowerCase() === 'f') {
+        event.preventDefault()
+        ui.setSearchAll(!ui.searchAllOpen)
+        return
+      }
       if (mod && event.key.toLowerCase() === 'f' && !event.shiftKey) {
         event.preventDefault()
         // 구조적 데이터는 접힌 노드까지 뒤지는 자체 검색이 더 낫다. 그쪽으로 보낸다.

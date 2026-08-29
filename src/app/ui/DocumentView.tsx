@@ -12,10 +12,12 @@ export function DocumentView({
   doc,
   onOpenDoc,
   resolveImage,
+  initialQuery,
 }: {
   doc: LoadedDoc
   onOpenDoc: (path: string) => void
   resolveImage: (path: string) => Promise<string | null>
+  initialQuery?: string
 }) {
   switch (doc.kind) {
     case 'markdown':
@@ -23,7 +25,7 @@ export function DocumentView({
     case 'json':
     case 'jsonl':
     case 'yaml':
-      return <DataView doc={doc} />
+      return <DataView doc={doc} initialQuery={initialQuery} />
     case 'text':
       return <TextView doc={doc} />
     default:

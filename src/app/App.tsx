@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { isImageName } from '@/entities/document'
+import { isImageName, isStructured } from '@/entities/document'
 import { useT } from '@/shared/i18n/useT'
 import { Sidebar, Welcome, readDataTransfer, useWorkspace, visibleFiles } from '@/features/workspace'
 import { CommandPalette } from '@/features/quick-open'
 import { SettingsPanel } from '@/features/reading-settings'
 import { FindBar } from '@/features/find'
+import { SearchPanel } from '@/features/search-all'
 import { useUi } from './model/ui'
 import { useGlobalShortcuts } from './shortcuts'
 import { PALETTE_HINT } from './platform'
@@ -27,6 +28,8 @@ export default function App() {
   const ui = useUi()
 
   const [dragging, setDragging] = useState(false)
+  /** 폴더 전체 검색에서 넘어온 검색어. 그 문서가 열렸을 때만 쓴다. */
+  const [seed, setSeed] = useState<{ path: string; query: string } | null>(null)
   const [scrollEl, setScrollEl] = useState<HTMLDivElement | null>(null)
   const dragDepth = useRef(0)
 
@@ -103,6 +106,16 @@ export default function App() {
     [workspace, select],
   )
 
+  // 검색 결과에서 연 문서에만 검색어를 물려준다.
+  const seedQuery = seed && seed.path === activePath ? seed.query : ''
+
+  // 마크다운·텍스트는 문서 내 찾기로, 구조적 데이터는 자체 검색으로 이어 붙인다.
+  useEffect(() => {
+    if (!seedQuery || docStatus !== 'ready' || !doc) return
+    if (!isStructured(doc.kind)) ui.setFind(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [seedQuery, docStatus, doc?.kind])
+
   const onDrop = useCallback(async (event: React.DragEvent) => {
     event.preventDefault()
     dragDepth.current = 0
@@ -176,13 +189,19 @@ export default function App() {
                 <p className="state">{t('viewer.pick', { key: PALETTE_HINT })}</p>
               )}
               {docStatus === 'ready' && doc && (
-                <DocumentView doc={doc} onOpenDoc={openDoc} resolveImage={resolveImage} />
+                <DocumentView
+                  doc={doc}
+                  onOpenDoc={openDoc}
+                  resolveImage={resolveImage}
+                  initialQuery={seedQuery}
+                />
               )}
             </div>
             <FindBar
               open={ui.findOpen}
               container={scrollEl}
               resetKey={activePath}
+              seed={seedQuery}
               onClose={() => ui.setFind(false)}
             />
           </main>
@@ -190,6 +209,16 @@ export default function App() {
         </>
       )}
 
+      <SearchPanel
+        open={ui.searchAllOpen}
+        files={pool}
+        onOpen={(path, query) => {
+          ui.setSearchAll(false)
+          setSeed({ path, query })
+          void select(path)
+        }}
+        onClose={() => ui.setSearchAll(false)}
+      />
       <CommandPalette
         open={ui.paletteOpen}
         files={pool}

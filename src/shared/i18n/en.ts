@@ -43,6 +43,7 @@ export const en: Dict = {
   'palette.empty': 'No results',
   'palette.hint': '↑↓ move · Enter open · Esc close',
 
+  'toolbar.searchAll': 'Search this folder',
   'toolbar.outline': 'Outline',
   'toolbar.find': 'Find in document',
   'toolbar.settings': 'Reading settings',
@@ -82,6 +83,17 @@ export const en: Dict = {
   'find.prev': 'Previous',
   'find.next': 'Next',
   'find.unsupported': 'Find in document is not available in this browser.',
+
+  'searchAll.title': 'Search this folder',
+  'searchAll.placeholder': 'Search every file in this folder…',
+  'searchAll.hint': '↑↓ move · Enter open · Esc close',
+  'searchAll.tooShort': 'Type at least {n} characters',
+  'searchAll.scanning': 'Scanned {scanned} of {total}…',
+  'searchAll.summary': '{files} files · {hits} matches',
+  'searchAll.none': 'No matches in this folder',
+  'searchAll.truncated': 'Stopped at {n} matches',
+  'searchAll.skipped': 'Skipped {n} files by size or type',
+  'searchAll.line': 'line {n}',
   'md.copyCode': 'Copy',
 
   'data.tree': 'Tree',
@@ -117,6 +129,7 @@ export const en: Dict = {
   'shortcuts.title': 'Keyboard shortcuts',
   'shortcuts.palette': 'Quick open a file',
   'shortcuts.find': 'Find in document',
+  'shortcuts.searchAll': 'Search every file in the folder',
   'shortcuts.outline': 'Toggle outline',
   'shortcuts.tree': 'Move up / down the tree',
   'shortcuts.nav': 'Previous / next document',
