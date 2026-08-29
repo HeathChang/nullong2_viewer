@@ -41,6 +41,8 @@ interface WorkspaceState {
   doc: LoadedDoc | null
   docStatus: DocStatus
   docError: DocError | null
+  /** 열어 둔 사이에 디스크에서 파일이 바뀌었는가 */
+  stale: boolean
 
   history: string[]
   historyIndex: number
@@ -59,6 +61,7 @@ interface WorkspaceState {
 
   select: (path: string, options?: { history?: boolean }) => Promise<void>
   reload: () => Promise<void>
+  checkStale: () => Promise<void>
   navigate: (delta: number) => void
   step: (delta: number) => void
 }
@@ -76,6 +79,7 @@ export const useWorkspace = create<WorkspaceState>((set, get) => ({
   doc: null,
   docStatus: 'idle',
   docError: null,
+  stale: false,
 
   history: [],
   historyIndex: -1,
@@ -149,7 +153,7 @@ export const useWorkspace = create<WorkspaceState>((set, get) => ({
       set({ activePath: path, doc: null, docStatus: 'error', docError: { kind: 'not-found' } })
       return
     }
-    set({ activePath: path, docStatus: 'loading', docError: null })
+    set({ activePath: path, docStatus: 'loading', docError: null, stale: false })
     if (options?.history !== false) pushHistory(path, set, get)
 
     try {
@@ -173,6 +177,23 @@ export const useWorkspace = create<WorkspaceState>((set, get) => ({
   reload: async () => {
     const path = get().activePath
     if (path) await get().select(path, { history: false })
+  },
+
+  /**
+   * 창에 포커스가 돌아올 때 디스크의 수정 시각만 다시 본다.
+   * 몰래 갱신하지 않는다 — 읽던 자리가 사라지는 게 더 불편하다.
+   */
+  checkStale: async () => {
+    const { doc, workspace, stale } = get()
+    if (!doc || stale) return
+    const node = workspace?.files.find((file) => file.path === doc.path)
+    if (!node?.handle) return
+    try {
+      const meta = await readMeta(node)
+      if (meta.lastModified !== doc.lastModified) set({ stale: true })
+    } catch {
+      /* 파일이 사라졌을 수도 있다. 조용히 넘어간다 */
+    }
   },
 
   navigate: (delta) => {
@@ -203,6 +224,7 @@ function blankDoc() {
     doc: null,
     docStatus: 'idle' as DocStatus,
     docError: null,
+    stale: false,
     history: [] as string[],
     historyIndex: -1,
   }

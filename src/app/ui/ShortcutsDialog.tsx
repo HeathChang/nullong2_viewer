@@ -5,6 +5,8 @@ import { IS_MAC, MOD_LABEL } from '../platform'
 
 const ROWS: [string[], MsgKey][] = [
   [[`${MOD_LABEL}K`], 'shortcuts.palette'],
+  [[`${MOD_LABEL}F`], 'shortcuts.find'],
+  [[`${MOD_LABEL}⇧O`], 'shortcuts.outline'],
   [['↑', '↓'], 'shortcuts.tree'],
   [[IS_MAC ? '⌥←' : 'Alt+←', IS_MAC ? '⌥→' : 'Alt+→'], 'shortcuts.nav'],
   [[`${MOD_LABEL}B`], 'shortcuts.sidebar'],

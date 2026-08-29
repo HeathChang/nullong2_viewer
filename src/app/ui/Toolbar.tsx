@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { useT } from '@/shared/i18n/useT'
 import { Icon } from '@/shared/ui/Icon'
 import { formatBytes } from '@/shared/lib/format'
-import { isOpenable } from '@/entities/document'
+import { isOpenable, isStructured } from '@/entities/document'
+import { usePrefs } from '@/shared/config/prefs'
 import { useWorkspace } from '@/features/workspace'
 import { useUi } from '../model/ui'
 
@@ -15,6 +16,8 @@ export function Toolbar() {
   const historyIndex = useWorkspace((s) => s.historyIndex)
   const historyLength = useWorkspace((s) => s.history.length)
   const ui = useUi()
+  const outlineOpen = usePrefs((s) => s.outlineOpen)
+  const setPref = usePrefs((s) => s.set)
   const [copied, setCopied] = useState(false)
 
   const segments = (activePath ?? '').split('/').filter(Boolean)
@@ -78,6 +81,32 @@ export function Toolbar() {
         <button className="iconbtn" onClick={() => ui.setPalette(true)} title={t('toolbar.search')}>
           <Icon name="search" />
         </button>
+        <button
+          className="iconbtn"
+          onClick={() => {
+            // 구조적 데이터는 접힌 노드까지 뒤지는 자체 검색이 더 낫다.
+            if (doc && isStructured(doc.kind)) {
+              document.querySelector<HTMLInputElement>('.data__search input')?.focus()
+            } else {
+              ui.setFind(!ui.findOpen)
+            }
+          }}
+          disabled={!doc || !isOpenable(doc.kind)}
+          aria-pressed={ui.findOpen}
+          title={t('toolbar.find')}
+        >
+          <Icon name="findText" />
+        </button>
+        {doc?.kind === 'markdown' && (
+          <button
+            className="iconbtn"
+            onClick={() => setPref('outlineOpen', !outlineOpen)}
+            aria-pressed={outlineOpen}
+            title={t('toolbar.outline')}
+          >
+            <Icon name="list" />
+          </button>
+        )}
         <button
           className="iconbtn"
           onClick={() => void reload()}

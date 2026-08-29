@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { isStructured } from '@/entities/document'
 import { usePrefs } from '@/shared/config/prefs'
 import { useWorkspace } from '@/features/workspace'
 import { useUi } from './model/ui'
@@ -27,6 +28,22 @@ export function useGlobalShortcuts(): void {
       if (mod && event.key.toLowerCase() === 'k') {
         event.preventDefault()
         ui.setPalette(!ui.paletteOpen)
+        return
+      }
+      if (mod && event.key.toLowerCase() === 'f' && !event.shiftKey) {
+        event.preventDefault()
+        // 구조적 데이터는 접힌 노드까지 뒤지는 자체 검색이 더 낫다. 그쪽으로 보낸다.
+        const kind = ws.doc?.kind
+        if (kind && isStructured(kind)) {
+          document.querySelector<HTMLInputElement>('.data__search input')?.focus()
+        } else {
+          ui.setFind(true)
+        }
+        return
+      }
+      if (mod && event.shiftKey && event.key.toLowerCase() === 'o') {
+        event.preventDefault()
+        prefs.set('outlineOpen', !prefs.outlineOpen)
         return
       }
       if (mod && event.key.toLowerCase() === 'b') {

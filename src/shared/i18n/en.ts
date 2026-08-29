@@ -43,6 +43,8 @@ export const en: Dict = {
   'palette.empty': 'No results',
   'palette.hint': '↑↓ move · Enter open · Esc close',
 
+  'toolbar.outline': 'Outline',
+  'toolbar.find': 'Find in document',
   'toolbar.settings': 'Reading settings',
   'toolbar.shortcuts': 'Shortcuts',
   'toolbar.reload': 'Reload',
@@ -66,6 +68,20 @@ export const en: Dict = {
   'settings.reset': 'Reset to defaults',
 
   'md.stats': '{words} words · about {minutes} min',
+  'md.imageMissing': 'Image not found',
+
+  'outline.title': 'Outline',
+  'outline.empty': 'No headings in this document',
+
+  'doc.stale': 'This file changed on disk',
+  'doc.reloadNow': 'Reload',
+
+  'find.placeholder': 'Find in document',
+  'find.count': '{i}/{n}',
+  'find.none': 'None',
+  'find.prev': 'Previous',
+  'find.next': 'Next',
+  'find.unsupported': 'Find in document is not available in this browser.',
   'md.copyCode': 'Copy',
 
   'data.tree': 'Tree',
@@ -100,6 +116,8 @@ export const en: Dict = {
 
   'shortcuts.title': 'Keyboard shortcuts',
   'shortcuts.palette': 'Quick open a file',
+  'shortcuts.find': 'Find in document',
+  'shortcuts.outline': 'Toggle outline',
   'shortcuts.tree': 'Move up / down the tree',
   'shortcuts.nav': 'Previous / next document',
   'shortcuts.sidebar': 'Toggle sidebar',

@@ -73,6 +73,13 @@ export const KIND_LABEL: Record<Exclude<FileKind, 'other'>, string> = {
   text: 'TEXT',
 }
 
+const IMAGE_EXT = new Set(['png', 'jpg', 'jpeg', 'gif', 'webp', 'avif', 'bmp', 'ico', 'svg'])
+
+/** 마크다운 안에서 표시할 수 있는 이미지인가. 큰 바이너리를 실수로 읽지 않기 위한 관문이다. */
+export function isImageName(name: string): boolean {
+  return IMAGE_EXT.has(extensionOf(name))
+}
+
 export function isHiddenPath(path: string): boolean {
   return path.split('/').some((segment) => segment.startsWith('.'))
 }

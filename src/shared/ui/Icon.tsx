@@ -16,6 +16,10 @@ const PATHS = {
   arrowLeft: 'M15 10H5 M9 6l-4 4 4 4',
   arrowRight: 'M5 10h10 M11 6l4 4-4 4',
   blank: 'M6 3h6l4 4v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z',
+  chevronUp: 'M5 12.5l5-5 5 5',
+  chevronDown: 'M5 7.5l5 5 5-5',
+  list: 'M4 5.5h12 M4 10h8 M4 14.5h10',
+  findText: 'M3.5 5h13 M3.5 9h7 M3.5 13h5 M12.6 13.1a2.9 2.9 0 1 0 0-5.8 2.9 2.9 0 0 0 0 5.8z M14.8 15.2 17 17.4',
 } as const
 
 export type IconName = keyof typeof PATHS

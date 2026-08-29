@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { isImageName } from '@/entities/document'
 import { useT } from '@/shared/i18n/useT'
 import { Sidebar, Welcome, readDataTransfer, useWorkspace, visibleFiles } from '@/features/workspace'
 import { CommandPalette } from '@/features/quick-open'
 import { SettingsPanel } from '@/features/reading-settings'
+import { FindBar } from '@/features/find'
 import { useUi } from './model/ui'
 import { useGlobalShortcuts } from './shortcuts'
 import { PALETTE_HINT } from './platform'
@@ -18,18 +20,74 @@ export default function App() {
   const docStatus = useWorkspace((s) => s.docStatus)
   const docError = useWorkspace((s) => s.docError)
   const activePath = useWorkspace((s) => s.activePath)
+  const stale = useWorkspace((s) => s.stale)
   const select = useWorkspace((s) => s.select)
+  const reload = useWorkspace((s) => s.reload)
+  const checkStale = useWorkspace((s) => s.checkStale)
   const ui = useUi()
 
   const [dragging, setDragging] = useState(false)
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const [scrollEl, setScrollEl] = useState<HTMLDivElement | null>(null)
   const dragDepth = useRef(0)
 
   useGlobalShortcuts()
 
+  // ---- 이어 읽기: 파일마다 스크롤 위치를 기억한다.
+  const scrollMemory = useRef(new Map<string, number>())
+  const activeRef = useRef<string | null>(null)
   useEffect(() => {
-    scrollRef.current?.scrollTo({ top: 0 })
+    activeRef.current = activePath
   }, [activePath])
+
+  useEffect(() => {
+    if (!scrollEl || docStatus !== 'ready' || !activePath) return
+    scrollEl.scrollTop = scrollMemory.current.get(activePath) ?? 0
+  }, [scrollEl, docStatus, activePath])
+
+  const rememberScroll = useCallback(() => {
+    const path = activeRef.current
+    if (path && scrollEl) scrollMemory.current.set(path, scrollEl.scrollTop)
+  }, [scrollEl])
+
+  // ---- 디스크 변경 감지: 창으로 돌아올 때만 확인하고, 갱신은 사용자가 누른다.
+  useEffect(() => {
+    const check = () => void checkStale()
+    window.addEventListener('focus', check)
+    document.addEventListener('visibilitychange', check)
+    return () => {
+      window.removeEventListener('focus', check)
+      document.removeEventListener('visibilitychange', check)
+    }
+  }, [checkStale])
+
+  // ---- 마크다운 안의 상대경로 이미지
+  const imageUrls = useRef(new Map<string, string>())
+  useEffect(() => {
+    const cache = imageUrls.current
+    return () => {
+      for (const url of cache.values()) URL.revokeObjectURL(url)
+      cache.clear()
+    }
+  }, [workspace])
+
+  const resolveImage = useCallback(
+    async (path: string): Promise<string | null> => {
+      const cached = imageUrls.current.get(path)
+      if (cached) return cached
+      const node = workspace?.files.find((file) => file.path === path)
+      if (!node || !isImageName(node.name)) return null
+      try {
+        const file = node.handle ? await node.handle.getFile() : node.file
+        if (!file) return null
+        const url = URL.createObjectURL(file)
+        imageUrls.current.set(path, url)
+        return url
+      } catch {
+        return null
+      }
+    },
+    [workspace],
+  )
 
   // 팔레트는 사이드바와 같은 집합을 본다. 트리에 없는 파일이 검색에서 튀어나오지 않는다.
   const pool = useMemo(() => visibleFiles(workspace, filter), [workspace, filter])
@@ -92,7 +150,15 @@ export default function App() {
           {ui.sidebarOpen && <Sidebar />}
           <main className="main">
             <Toolbar />
-            <div className="scroll-area" ref={scrollRef}>
+            {stale && (
+              <div className="stale" role="status">
+                <span>{t('doc.stale')}</span>
+                <button className="linkbtn" onClick={() => void reload()}>
+                  {t('doc.reloadNow')}
+                </button>
+              </div>
+            )}
+            <div className="scroll-area" ref={setScrollEl} onScroll={rememberScroll}>
               {docStatus === 'loading' && <p className="state">{t('viewer.loading')}</p>}
               {docStatus === 'error' && (
                 <div className="state state--error">
@@ -109,8 +175,16 @@ export default function App() {
               {docStatus === 'idle' && (
                 <p className="state">{t('viewer.pick', { key: PALETTE_HINT })}</p>
               )}
-              {docStatus === 'ready' && doc && <DocumentView doc={doc} onOpenDoc={openDoc} />}
+              {docStatus === 'ready' && doc && (
+                <DocumentView doc={doc} onOpenDoc={openDoc} resolveImage={resolveImage} />
+              )}
             </div>
+            <FindBar
+              open={ui.findOpen}
+              container={scrollEl}
+              resetKey={activePath}
+              onClose={() => ui.setFind(false)}
+            />
           </main>
           {dragging && <div className="dropveil">{t('open.dropActive')}</div>}
         </>

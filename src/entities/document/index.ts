@@ -4,6 +4,7 @@ export {
   kindOf,
   isStructured,
   isOpenable,
+  isImageName,
   isHiddenPath,
   KIND_ORDER,
   KIND_LABEL,

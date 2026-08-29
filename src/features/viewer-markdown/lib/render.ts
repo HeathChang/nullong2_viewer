@@ -37,6 +37,10 @@ function slugify(text: string): string {
 
 const EXTERNAL = /^(https?:|mailto:|tel:)/i
 
+/** 실제 이미지가 붙기 전까지 자리만 잡아 두는 투명 1x1 */
+const BLANK_PIXEL =
+  'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='
+
 function countWords(text: string): number {
   // 라틴 문자는 공백으로, CJK 는 글자 수로 센다.
   const cjk = text.match(/[぀-ヿ㐀-䶿一-鿿가-힯]/g)?.length ?? 0
@@ -100,8 +104,8 @@ export function renderMarkdown(source: string): RenderedMarkdown {
         if (EXTERNAL.test(href) || href.startsWith('data:')) {
           return `<img src="${escapeHtml(href)}" alt="${alt}"${title} loading="lazy">`
         }
-        // 상대경로 이미지 해석은 M3(이미지 포맷 지원)에서 붙인다.
-        return `<span class="img-placeholder" data-src="${escapeHtml(href)}">🖼 ${alt || escapeHtml(href)}</span>`
+        // 폴더 안의 이미지. 실제 src 는 뷰어가 워크스페이스에서 찾아 끼운다.
+        return `<img class="img-pending" data-rel="${escapeHtml(href)}" src="${BLANK_PIXEL}" alt="${alt}"${title}>`
       },
     },
   })

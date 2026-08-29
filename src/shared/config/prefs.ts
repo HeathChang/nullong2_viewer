@@ -13,6 +13,8 @@ export interface Prefs {
   width: number
   lineHeight: number
   wrapCode: boolean
+  /** 목차 패널을 열어 두는지. 뷰어가 app 을 거치지 않고 읽을 수 있도록 여기 둔다. */
+  outlineOpen: boolean
 }
 
 export const FONT_SIZE_RANGE = [14, 22] as const
@@ -28,6 +30,7 @@ export function defaultPrefs(): Prefs {
     width: 74,
     lineHeight: 1.78,
     wrapCode: false,
+    outlineOpen: true,
   }
 }
 
@@ -98,6 +101,6 @@ export const usePrefs = create<PrefsState>((setState, get) => ({
 }))
 
 function snapshot(state: PrefsState): Prefs {
-  const { lang, theme, font, fontSize, width, lineHeight, wrapCode } = state
-  return { lang, theme, font, fontSize, width, lineHeight, wrapCode }
+  const { lang, theme, font, fontSize, width, lineHeight, wrapCode, outlineOpen } = state
+  return { lang, theme, font, fontSize, width, lineHeight, wrapCode, outlineOpen }
 }

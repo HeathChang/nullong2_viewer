@@ -41,6 +41,8 @@ export const ko = {
   'palette.empty': '결과가 없습니다',
   'palette.hint': '↑↓ 이동 · Enter 열기 · Esc 닫기',
 
+  'toolbar.outline': '목차',
+  'toolbar.find': '문서에서 찾기',
   'toolbar.settings': '읽기 설정',
   'toolbar.shortcuts': '단축키',
   'toolbar.reload': '다시 읽기',
@@ -64,6 +66,20 @@ export const ko = {
   'settings.reset': '기본값으로',
 
   'md.stats': '{words}단어 · 약 {minutes}분',
+  'md.imageMissing': '이미지를 찾지 못했습니다',
+
+  'outline.title': '목차',
+  'outline.empty': '제목이 없는 문서입니다',
+
+  'doc.stale': '이 파일이 디스크에서 바뀌었습니다',
+  'doc.reloadNow': '다시 읽기',
+
+  'find.placeholder': '문서에서 찾기',
+  'find.count': '{i}/{n}',
+  'find.none': '없음',
+  'find.prev': '이전',
+  'find.next': '다음',
+  'find.unsupported': '이 브라우저에서는 문서 내 찾기를 쓸 수 없습니다.',
   'md.copyCode': '복사',
 
   'data.tree': '트리',
@@ -98,6 +114,8 @@ export const ko = {
 
   'shortcuts.title': '단축키',
   'shortcuts.palette': '파일 빠른 찾기',
+  'shortcuts.find': '문서에서 찾기',
+  'shortcuts.outline': '목차 토글',
   'shortcuts.tree': '트리에서 위 · 아래',
   'shortcuts.nav': '이전 · 다음 문서',
   'shortcuts.sidebar': '사이드바 접기 · 펴기',
