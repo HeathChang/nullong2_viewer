@@ -1,0 +1,8 @@
+{
+  "users": [
+    { "id": 1, "name": "김민준", "email": "minjun@example.com", "roles": ["admin", "editor"], "active": true },
+    { "id": 2, "name": "Sofía López", "email": "sofia@example.com", "roles": ["viewer"], "active": false },
+    { "id": 3, "name": "田中太郎", "email": "tanaka@example.jp", "roles": [], "active": true }
+  ],
+  "meta": { "total": 3, "page": 1, "nested": { "deep": { "deeper": { "value": null } } } }
+}

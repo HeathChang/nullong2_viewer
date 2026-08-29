@@ -1,0 +1,31 @@
+{
+  "name": "zzaim-viewer",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Local-first Markdown & JSON reader. No backend, no upload.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --port 4173",
+    "typecheck": "tsc -b --noEmit false --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "dompurify": "^3.2.4",
+    "highlight.js": "^11.11.1",
+    "idb-keyval": "^6.2.1",
+    "marked": "^15.0.7",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "yaml": "^2.9.0",
+    "zustand": "^5.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.3",
+    "vite": "^6.2.0"
+  }
+}
