@@ -92,7 +92,7 @@ export const useWorkspace = create<WorkspaceState>((set, get) => ({
     let handle: FileSystemDirectoryHandle
     try {
       // 이 버전은 읽기 전용이다. 쓰기 권한은 요청하지 않는다.
-      handle = await window.showDirectoryPicker({ id: 'zzaim-root', mode: 'read' })
+      handle = await window.showDirectoryPicker({ id: 'nullong-root', mode: 'read' })
     } catch {
       return // 사용자가 취소한 경우
     }

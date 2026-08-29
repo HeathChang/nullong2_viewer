@@ -1,7 +1,7 @@
 import type { Dict } from './ko'
 
 export const en: Dict = {
-  'app.title': 'Zzaim Viewer',
+  'app.title': 'Nullong Viewer',
   'app.tagline': 'Read a whole folder of Markdown, JSON and YAML',
 
   'open.headline': 'Open a folder, read everything inside it',

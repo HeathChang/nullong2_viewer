@@ -245,7 +245,7 @@ CLI는 인자 하나. 폴더를 알고 있어야만 되는 일이 있다 — `[�
 **"포맷 하나를 더 지원한다"가 얼마나 싼가.**
 
 ```
-zzaim-frontend/
+nullong2_viewer/
 ├── index.html
 ├── vite.config.ts          # base 는 BASE_PATH 로 덮어쓴다
 ├── docs/PLAN.md

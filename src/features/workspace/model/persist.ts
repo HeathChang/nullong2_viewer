@@ -11,7 +11,7 @@ export interface RecentEntry {
   handle: FileSystemDirectoryHandle
 }
 
-const KEY = 'zzaim:recent-dirs'
+const KEY = 'nullong:recent-dirs'
 const LIMIT = 8
 
 export async function loadRecents(): Promise<RecentEntry[]> {

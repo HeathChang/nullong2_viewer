@@ -13,7 +13,7 @@ export function defaultFilter(): FileFilter {
   return { kinds: [...KIND_ORDER], includeHidden: false }
 }
 
-const KEY = (folder: string) => `zzaim:filter:${folder}`
+const KEY = (folder: string) => `nullong:filter:${folder}`
 
 /** 폴더마다 마지막으로 고른 형식을 기억한다. */
 export function loadFilter(folder: string): FileFilter {

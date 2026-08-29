@@ -1,5 +1,5 @@
 export const ko = {
-  'app.title': 'Zzaim Viewer',
+  'app.title': 'Nullong Viewer',
   'app.tagline': '폴더째 읽는 마크다운 · JSON · YAML 뷰어',
 
   'open.headline': '폴더를 열면, 그 안을 전부 읽을 수 있어요',

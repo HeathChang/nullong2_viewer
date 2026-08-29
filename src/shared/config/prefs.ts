@@ -35,7 +35,7 @@ export function clamp(value: number, [min, max]: readonly [number, number]): num
   return Math.min(max, Math.max(min, value))
 }
 
-const KEY = 'zzaim:prefs'
+const KEY = 'nullong:prefs'
 
 function load(): Prefs {
   const base = defaultPrefs()

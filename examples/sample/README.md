@@ -10,7 +10,7 @@
 - 다른 문서로 이동: [가이드 보기](./docs/guide.md)
 
 ```json
-{ "name": "zzaim", "tags": ["md", "json"], "count": 3 }
+{ "name": "nullong", "tags": ["md", "json"], "count": 3 }
 ```
 
 ```python
